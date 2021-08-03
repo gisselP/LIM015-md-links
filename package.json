@@ -18,5 +18,8 @@
   "bugs": {
     "url": "https://github.com/MaffPerez/LIM015-md-links/issues"
   },
-  "homepage": "https://github.com/MaffPerez/LIM015-md-links#readme"
+  "homepage": "https://github.com/MaffPerez/LIM015-md-links#readme",
+  "dependencies": {
+    "@laboratoria/curriculum-parser": "github:Laboratoria/course-parser"
+  }
 }
