@@ -2,9 +2,8 @@ module.exports = () => {
   // ...
 };
 
-let path = require ('path');
-
-let ruta = process.argv[2];
+const path = require ('path');
+const ruta = process.argv[2];
 
 function isAbsolute (ruta){
 if(path.isAbsolute(ruta)){
@@ -16,4 +15,6 @@ return ruta
 }
 }
 isAbsolute(ruta);
+
+
 
