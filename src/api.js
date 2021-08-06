@@ -1,21 +1,34 @@
 const path = require('path');
+const fs= require('fs');
+
 const userPath = process.argv[2];
-const pathAbsolute = (userPath) => path.isAbsolute(userPath) ? userPath : path.resolve(userPath);
+const pathAbsolute = (paths) => path.isAbsolute(paths) ? paths : path.resolve(paths);
 
-/* if(path.isAbsolute(userPath)){
-    console.log(true);
-    console.log(userPath);
-}else{
-    console.log(false);
-    console.log(path.resolve(userPath));
-} 
-const pathAbsolute = path.isAbsolute(process.argv[2]) ; */
+const pathExists = (paths) => {
+    if(fs.existsSync(paths)){
+      console.log(true)
+    }else{
+      console.log(false)
+    }
+  }
+/* const pathAbsolute = (paths)=>{
+    if(path.isAbsolute(paths)){
+        console.log(true);
+        console.log(paths);
+    }else{
+        console.log(false);
+        console.log(path.resolve(paths));
+    } 
+} */
 
-/* pathAbsolute(userPath); */
+console.log(pathExists(userPath)); 
+/* const pathExists = (paths) => {
+    if(fs.existsSync(paths)){
+      console.log(true)
+    }else{
+      console.log(false)
+    }
+  } */
 
-function prueba() {
-    let prueba2 = pathAbsolute(userPath);
-    console.log(prueba2)
-}
 
-prueba();
+
