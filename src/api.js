@@ -1,4 +1,4 @@
-const path = require('path');
+/* const path = require('path');
 const fs= require('fs');
 
 const userPath = process.argv[2];
@@ -10,7 +10,7 @@ const pathExists = (paths) => {
     }else{
       console.log(false)
     }
-  }
+  } */
 /* const pathAbsolute = (paths)=>{
     if(path.isAbsolute(paths)){
         console.log(true);
@@ -21,7 +21,7 @@ const pathExists = (paths) => {
     } 
 } */
 
-console.log(pathExists(userPath)); 
+/* console.log(pathExists(userPath));  */
 /* const pathExists = (paths) => {
     if(fs.existsSync(paths)){
       console.log(true)

@@ -23,6 +23,7 @@
   },
   "homepage": "https://github.com/gisselP/LIM015-md-links#readme",
   "dependencies": {
-    "@laboratoria/curriculum-parser": "github:Laboratoria/course-parser"
+    "@laboratoria/curriculum-parser": "github:Laboratoria/course-parser",
+    "marked": "^2.1.3"
   }
 }
