@@ -6,57 +6,37 @@ const path = require ('path');
 const userPath = process.argv[2];
 const fs = require('fs');
 
-/*---------------------1.Funcion que comprueba si existe----------------------*/
-function checkExists (route){
-if(fs.existsSync(route)){
-  console.log("si existe");
-}else{
-  console.log("no existe");
-}}
+/*------------------1.Funcion que comprueba si existe la ruta --------------*/
+const checkExists = (route) =>fs.existsSync(route)
 
-/*---------------------2.Funcion que comprueba si la ruta es absoluta----------------------*/
+/*------------------2.Funcion que comprueba si la ruta es absoluta---------*/
 const convertToAbsolute = (route) => path.resolve(route)
 
-
-/*-------------------3.Funcion que verifica si es directorio o archivo--------------------*/
+/*------------------3.Funcion que verifica si es directorio---------------*/
 const itsDirectory = (route) => fs.statSync(route).isDirectory()
 
+/*------------------4.Funcion que verifica si es archivo-----------------*/
 const itsFile = (route) => fs.statSync(route).isFile()
 
 
-/*---------------------4.Funcion que comprueba si tiene archvos md----------------------*/
-function mdExtension(route) {
-  return path.extname(route)
-}
+/*---------------------4.Funcion que verdifica si tiene archivos md---------*/
+const mdExtension = (route) => path.extname(route)
 
 /*---------------------5.Funcion que lee el directorio----------------------*/
+const readDirectory = (route) => fs.readdirSync(route)
 
-function readDir (ruta) {
-  fs.readdir(ruta, "utf8", function(err, data){
-    if(err){
-      console.log("no es un directorio");
-    }else{
-      console.log("el directorio contiene "+ data);
-    }
-  })
+/*---------------------6.Funcion que devuelve si es archivo o directorio----*/
+const fileOrDir = (route) => {
+  if(itsDirectory(route)){
+    console.log("es un directorio");
+  }else if (itsFile(route)){
+    console.log("es un archivo");
   }
-
-checkExists(userPath);
-console.log(convertToAbsolute(userPath));
-console.log("es directorio:",itsDirectory(userPath));
-console.log("es archivo:",itsFile(userPath));
-console.log(mdExtension(userPath));
-readDir(userPath);
+}
 
 
-
-
-
-
-
-
-
-
+console.log("existe:",checkExists(userPath));
+fileOrDir(userPath);
 
 
 
@@ -86,5 +66,43 @@ readDir(userPath);
 //     console.log("no es un archivo");
 // }}
 
+// function readElemnts () {
+//   fs.readFile(ruta, "utf8", function(err, data){
+//     if(err){
+//       console.log("es un directorio");
+//     }else{
+//       console.log("el archivo contiene"+ data);
+//     }
+//   });
 
-
+/*---------------------5.Funcion que lee el directorio----------------------*/
+// const searchMdFiles = (route) => {
+//    let allFileMd = [];
+//   if(isFile(route)) {
+//     if(mdExtension(route) === 'md') {
+//       allFileMd.push(route);
+//     }
+//   }else{
+//     fileandDirectories(route).forEach((files)=> {
+//       const mdFilesInDirectory = searchMdFiles(files);
+//       allFileMd=allFileMd.concat(mdFilesInDirectory);
+//       console.log("mdFilesInDirectory");
+//     })
+//   }
+//   return allFileMd;
+//  };
+ /*---------------------5.Funcion que lee archivos----------------------*/
+//  const readFilePath = (route) => fs.readFileSync(route).toString();
+// const extractMdDirectory = (route) => {
+//   let allFileMd = [];
+//   const readDirectory = fs.readdirSync(route);
+//   for(let i = 0; i < readDirectory.length; i++) {
+//     const file = path.join(route, readDirectory[i]);
+//     if(isDirectory(file)) {
+//       allFileMd= allFileMd.concat(extractMdDirectory(file));
+//     }else if (mdExtension(file) === 'md'){
+//       allFileMd.push(file);
+//     }
+//   }
+//   return allFileMd;
+// }
