@@ -22,16 +22,8 @@ const itsFile = (route) => fs.statSync(route).isFile()
 const mdExtension = (route) => path.extname(route)
 
 /*---------------------5.Funcion que lee los archivo----------------------*/
-function readFiles (route) {
-  fs.readFile(route, "utf8", function(err, data){
-    if(err){
-      console.log("es un directorio");
-    }else{
-      console.log("el archivo contiene"+ data);
-    }
-  });
-}
-/*---------------------6.Funcion que filtra archivos md ---------------------*/
+const readFile = (route) => fs.readFileSync(route, { encoding: 'utf-8', flag: 'r' });
+// /*---------------------6.Funcion que filtra archivos md ---------------------*/
 function searchFileMd(route) {
   let allFilesMd = [];
   if (itsDirectory(route)) {
@@ -50,14 +42,32 @@ function searchFileMd(route) {
   } else if (mdExtension(route) === '.md') {
     allFilesMd.push(convertToAbsolute(route));
   }
-  console.log(allFilesMd, 28);
+  // console.log(allFilesMd, 28);
   return allFilesMd;
 }
+
+function searchLinks (route) {
+  let allLinks = [];
+  searchFileMd(route).forEach((file) => {
+    const regExp = /\[(.*)\]\(((?!#).+)\)/gi;
+    const links = readFile(file).match(regExp).map((e) => e.split('](')[1].slice(0, -1));
+    const text = readFile(file).match(regExp).map((e) => e.split('](')[0].slice(1));
+  links.forEach((link, i) => {
+    allLinks.push({
+      href: link,
+      text: text[i],
+      file,
+    });
+  });
+  });
+  return allLinks;
+};
 
 
 console.log("existe:", checkExists(userPath));
 searchFileMd(userPath);
-readFiles(userPath)
+console.log(searchLinks(userPath));
+
 
 
 /*---------------------5.Funcion que lee archivos----------------------*/
@@ -118,4 +128,26 @@ readFiles(userPath)
 //   });
 // }
 // return console.log(allFileMd,48);
+// }
+
+// function fileReader(dir) {
+//   let results = [];
+//   if (fs.statSync(dir).isDirectory()) {
+//     const list = fs.readdirSync(dir);
+//     list.forEach((file) => {
+//       const files = path.resolve(`${dir}/${file}`);
+//       const stat = fs.statSync(files);
+//       if (stat && stat.isDirectory()) {
+//         /* Recurse into a subdirectory */
+//         results = results.concat(fileReader(files));
+//       } else {
+//         /* Is a file */
+//         if (path.extname(files) === '.md') results.push(files);
+//       }
+//     });
+//   } else if (path.extname(dir) === '.md') {
+//     results.push(path.resolve(dir));
+//   }
+//   console.log(results, 28);
+//   return results;
 // }
