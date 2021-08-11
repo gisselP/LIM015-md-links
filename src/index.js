@@ -7,75 +7,70 @@ const pathAbsolute = (paths) => path.isAbsolute(paths) ? paths : path.resolve(pa
 
 const existsPath = (paths) => fs.existsSync(paths);
 
-const isDir = (paths) => fs.statSync(paths).isDirectory();
+const isDir = (paths) => fs.statSync(paths).isDirectory(paths);
 
 const isFile =(paths) => fs.statSync(paths).isFile();
 
 const isFileMd =(paths)=> path.extname(paths);
 
 const readFile = (paths)=>{
-  const contentFile= fs.readFileSync(paths,'utf8',(err,data)=>{
-    if(err){
-      return 'error';
-    }else{
-      return data;
-    }
-  });
+  const contentFile= fs.readFileSync(paths,'utf8');
   if(contentFile=='error'){
     return 'no se pudo leer este archivo'
   }else{
     let allLinks=[];
     const renderer = new marked.Renderer();
-        renderer.link = function(href, title, text) {
-          allLinks.push({
-            href: href,
-            text: text,
-            file: paths
-          });
-        };
-        marked(contentFile, { renderer: renderer }); 
-    const filteredLinks = allLinks.filter(url=>url.href.substring(0, 4) == 'http');
+    renderer.link = (href, title, text) => {
+      allLinks.push({
+        href: href,
+        title: text,
+        file: paths
+      });
+    };
+    marked(contentFile, {renderer}); 
+    const filteredLinks = allLinks.filter(url => url.href.slice(0, 4) == 'http');
     return filteredLinks;
   }
-
 }  
 
-const readDirectory = (paths) =>{
-  let allFileMd = [];
-  const readContentDir = fs.readdirSync(paths);
-  for(let key in readContentDir){
-    const pathFile = path.join(paths, readContentDir[key]);
-    if(isDir(pathFile)){
-      allFileMd = allFileMd.concat(readDirectory(pathFile)); 
-    }else if(isFileMd(pathFile)=='.md'){
-      allFileMd.push(pathFile);
+
+const getFilesMd = (paths) =>{
+  let allFile = [];
+  if(isFile(paths)){
+      allFile.push(paths);
+  }else if (isDir(paths)){
+    const readContentDir = fs.readdirSync(paths);
+    for(const key in readContentDir){
+      const pathFile = path.join(paths, readContentDir[key]); // Muestra las rutas de las carpetas 
+      allFile = allFile.concat(getFilesMd(pathFile)); 
     }
   }
+  const allFileMd = allFile.filter((paths) => isFileMd(paths));
   return allFileMd;
-}
+};
 
-const mdLinks = (paths) =>{
+/* console.log(getFilesMd(userPath)); */
+const getMdLinks = (paths) =>{
   let allLinks=[];
-  if(isDir(paths)){
-    const allFileMd = readDirectory(paths);
-    for(let key in allFileMd){
-      allLinks.push(readFile(allFileMd[key]));
-    }
-
-  }else if(isFile(paths)){
-    if(isFileMd(paths) =='.md'){
-      allLinks.push(readFile(paths));
-    }else{
-      console.log('no es un archivo md');
-    }
+  const allFileMd = getFilesMd(paths);// trae la ruta de los archivos md
+  for(const key in allFileMd){
+    allLinks=allLinks.concat(readFile(allFileMd[key]));
   }
-  console.log(allLinks)
+  return allLinks
+  
 }
-mdLinks(userPath);
+console.log(getMdLinks(userPath));
+/* console.log(getMdLinks(userPath)); */
 
-
+/* const options = (paths)=>{
+  if(getMdLinks(paths).length == 0){
+    console.log('holi')
+  }else if(getMdLinks(paths).length !== 0)[
+    console.log('ta bien')
+  ]
+}
+console.log(options(userPath)); */
 
 module.exports = {
-  pathAbsolute,
-  existsPath
+  pathAbsolute
 };
