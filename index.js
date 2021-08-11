@@ -15,30 +15,52 @@ const convertToAbsolute = (route) => path.resolve(route)
 /*------------------3.Funcion que verifica si es directorio---------------*/
 const itsDirectory = (route) => fs.statSync(route).isDirectory()
 
-/*------------------4.Funcion que verifica si es archivo-----------------*/
+// /*------------------4.Funcion que verifica si es archivo-----------------*/
 const itsFile = (route) => fs.statSync(route).isFile()
 
-
-/*---------------------4.Funcion que verdifica si tiene archivos md---------*/
+/*---------------------5.Funcion que verdifica si tiene archivos md---------*/
 const mdExtension = (route) => path.extname(route)
 
-/*---------------------5.Funcion que lee el directorio----------------------*/
-const readDirectory = (route) => fs.readdirSync(route)
-
-/*---------------------6.Funcion que devuelve si es archivo o directorio----*/
-const fileOrDir = (route) => {
-  if(itsDirectory(route)){
-    console.log("es un directorio");
-  }else if (itsFile(route)){
-    console.log("es un archivo");
+/*---------------------5.Funcion que lee los archivo----------------------*/
+function readFiles (route) {
+  fs.readFile(route, "utf8", function(err, data){
+    if(err){
+      console.log("es un directorio");
+    }else{
+      console.log("el archivo contiene"+ data);
+    }
+  });
+}
+/*---------------------6.Funcion que filtra archivos md ---------------------*/
+function searchFileMd(route) {
+  let allFilesMd = [];
+  if (itsDirectory(route)) {
+    const readDirectory = fs.readdirSync(route);
+    readDirectory.forEach((file) => {
+      const pathAbsolute = convertToAbsolute(`${route}/${file}`);
+      // const stat = fs.statSync(pathAbsolute);
+      if (itsDirectory(pathAbsolute)) {
+        /* Recurse into a subdirectory */
+        allFilesMd = allFilesMd.concat(searchFileMd(pathAbsolute));
+      } else {
+        /* Is a file */
+        if (mdExtension(pathAbsolute) === '.md')allFilesMd.push(pathAbsolute);
+      }
+    });
+  } else if (mdExtension(route) === '.md') {
+    allFilesMd.push(convertToAbsolute(route));
   }
+  console.log(allFilesMd, 28);
+  return allFilesMd;
 }
 
 
-console.log("existe:",checkExists(userPath));
-fileOrDir(userPath);
+console.log("existe:", checkExists(userPath));
+searchFileMd(userPath);
+readFiles(userPath)
 
 
+/*---------------------5.Funcion que lee archivos----------------------*/
 
 
 // function convertToAbsolutePath(ruta){
@@ -76,33 +98,24 @@ fileOrDir(userPath);
 //   });
 
 /*---------------------5.Funcion que lee el directorio----------------------*/
-// const searchMdFiles = (route) => {
-//    let allFileMd = [];
-//   if(isFile(route)) {
-//     if(mdExtension(route) === 'md') {
-//       allFileMd.push(route);
-//     }
-//   }else{
-//     fileandDirectories(route).forEach((files)=> {
-//       const mdFilesInDirectory = searchMdFiles(files);
-//       allFileMd=allFileMd.concat(mdFilesInDirectory);
-//       console.log("mdFilesInDirectory");
-//     })
-//   }
-//   return allFileMd;
-//  };
- /*---------------------5.Funcion que lee archivos----------------------*/
-//  const readFilePath = (route) => fs.readFileSync(route).toString();
-// const extractMdDirectory = (route) => {
-//   let allFileMd = [];
+
+// const searchFileMd = (route) => {
+// let allFileMd = [];
+
+// if(itsFile(route) && mdExtension(route) === ".md"){
+//   allFileMd.push(route);
+//   }else if (itsDirectory(route)) {
 //   const readDirectory = fs.readdirSync(route);
-//   for(let i = 0; i < readDirectory.length; i++) {
-//     const file = path.join(route, readDirectory[i]);
-//     if(isDirectory(file)) {
-//       allFileMd= allFileMd.concat(extractMdDirectory(file));
-//     }else if (mdExtension(file) === 'md'){
-//       allFileMd.push(file);
-//     }
-//   }
-//   return allFileMd;
+//   readDirectory.forEach((file)=>{
+//     const filePath = path.join(route,file);
+//     if(itsDirectory(filePath)){
+//       allFileMd = allFileMd.concat(searchFileMd(filePath));
+//     }else{
+//       if(mdExtension(filePath) === ".md"){
+//         allFileMd.push(filePath);
+//       }
+//     };
+//   });
+// }
+// return console.log(allFileMd,48);
 // }
