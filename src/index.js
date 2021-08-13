@@ -9,30 +9,11 @@ const existsPath = (paths) => fs.existsSync(paths);
 
 const isDir = (paths) => fs.statSync(paths).isDirectory(paths);
 
-const isFile =(paths) => fs.statSync(paths).isFile();
+const isFile = (paths) => fs.statSync(paths).isFile();
 
-const isFileMd =(paths)=> path.extname(paths);
+const isFileMd = (paths)=> path.extname(paths);
 
-const readFile = (paths)=>{
-  const contentFile= fs.readFileSync(paths,'utf8');
-  if(contentFile=='error'){
-    return 'no se pudo leer este archivo'
-  }else{
-    let allLinks=[];
-    const renderer = new marked.Renderer();
-    renderer.link = (href, title, text) => {
-      allLinks.push({
-        href: href,
-        title: text,
-        file: paths
-      });
-    };
-    marked(contentFile, {renderer}); 
-    const filteredLinks = allLinks.filter(url => url.href.slice(0, 4) == 'http');
-    return filteredLinks;
-  }
-}  
-
+const contentFile = (paths) => fs.readFileSync(paths,'utf-8');
 
 const getFilesMd = (paths) =>{
   let allFile = [];
@@ -41,7 +22,7 @@ const getFilesMd = (paths) =>{
   }else if (isDir(paths)){
     const readContentDir = fs.readdirSync(paths);
     for(const key in readContentDir){
-      const pathFile = path.join(paths, readContentDir[key]); // Muestra las rutas de las carpetas 
+      const pathFile = path.join(paths, readContentDir[key]);//Muestra las rutas de las carpetas 
       allFile = allFile.concat(getFilesMd(pathFile)); 
     }
   }
@@ -49,27 +30,35 @@ const getFilesMd = (paths) =>{
   return allFileMd;
 };
 
-/* console.log(getFilesMd(userPath)); */
-const getMdLinks = (paths) =>{
+const getLinks = (paths)=>{
   let allLinks=[];
-  const allFileMd = getFilesMd(paths);// trae la ruta de los archivos md
-  for(const key in allFileMd){
-    allLinks=allLinks.concat(readFile(allFileMd[key]));
-  }
-  return allLinks
-  
-}
-console.log(getMdLinks(userPath));
-/* console.log(getMdLinks(userPath)); */
+  const renderer = new marked.Renderer();
+  getFilesMd(paths).forEach((file)=>{
+    renderer.link = (href, title, text) => {
+      allLinks.push({
+        href: href,
+        title: text,
+        file: paths
+      });
+    };
+    marked(contentFile(file), {renderer}); 
+  });
+  const filteredLinks = allLinks.filter(url => url.href.slice(0, 4) == 'http'); 
+  return filteredLinks;
+}  
 
-/* const options = (paths)=>{
-  if(getMdLinks(paths).length == 0){
-    console.log('holi')
-  }else if(getMdLinks(paths).length !== 0)[
-    console.log('ta bien')
-  ]
-}
-console.log(options(userPath)); */
+/* console.log(getLinks(userPath)) */
+
+const getFileLinks = (paths)=>{
+  if(getLinks(paths)==[]){
+    /* console.log('ta vacio') */
+  }else{
+    /* console.log('ta lleno') */
+  }
+}  
+
+/* getFileLinks(userPath); */
+
 
 module.exports = {
   pathAbsolute
