@@ -20,6 +20,7 @@
   },
   "homepage": "https://github.com/MaffPerez/LIM015-md-links#readme",
   "dependencies": {
-    "@laboratoria/curriculum-parser": "github:Laboratoria/course-parser"
+    "@laboratoria/curriculum-parser": "github:Laboratoria/course-parser",
+    "node-fetch": "^2.6.1"
   }
 }

@@ -5,6 +5,7 @@
 const path = require ('path');
 const userPath = process.argv[2];
 const fs = require('fs');
+const fetch = require('node-fetch');
 
 /*------------------1.Funcion que comprueba si existe la ruta --------------*/
 const checkExists = (route) =>fs.existsSync(route)
@@ -46,28 +47,49 @@ function searchFileMd(route) {
   return allFilesMd;
 }
 
-function searchLinks (route) {
-  let allLinks = [];
-  searchFileMd(route).forEach((file) => {
-    const regExp = /\[(.*)\]\(((?!#).+)\)/gi;
-    const links = readFile(file).match(regExp).map((e) => e.split('](')[1].slice(0, -1));
-    const text = readFile(file).match(regExp).map((e) => e.split('](')[0].slice(1));
-  links.forEach((link, i) => {
-    allLinks.push({
-      href: link,
-      text: text[i],
-      file,
-    });
+const mdFileLinks = (theLinks) => {
+  const linksArray = [];
+  const routeResolve = convertToAbsolute(theLinks);
+  searchFileMd(routeResolve).forEach((file) => {
+    const regularExpression = /\[(.*)\]\(((?!#).+)\)/gi;
+    const carpeta = readFile(file).match(regularExpression);
+      if (carpeta !== null) {
+      const fileLinks = readFile(file).match(regularExpression).map((x) => x.split('](')[1].slice(0, -1));
+      const filetext = readFile(file).match(regularExpression).map((x) => x.split('](')[0].slice(1));
+          fileLinks.forEach((link, i) => {
+          linksArray.push({
+            href: link,
+            text: filetext[i],
+            file,
+          });
+        });
+    }
   });
-  });
-  return allLinks;
+    return linksArray;
 };
+
+// /*---------------------Funcion que filtra archivos md ---------------------*/
+
+const validarLinks = (links) => {
+  mdFileLinks(links).forEach((file)=>{
+    const linkHttp = file.href;
+    fetch(linkHttp).then((res)=>{
+    console.log(file.href);
+    console.log(file.text);
+    console.log(file.file);
+    console.log(res.status);
+    console.log(res.statusText);
+  })
+  })
+}
+
 
 
 console.log("existe:", checkExists(userPath));
 searchFileMd(userPath);
-console.log(searchLinks(userPath));
-
+// searchLinks(userPath);
+mdFileLinks(userPath);
+validarLinks(userPath);
 
 
 /*---------------------5.Funcion que lee archivos----------------------*/
@@ -151,3 +173,19 @@ console.log(searchLinks(userPath));
 //   console.log(results, 28);
 //   return results;
 // }
+// function searchLinks (route) {
+//   const allLinks = [];
+//   searchFileMd(route).forEach((file) => {
+//     const regExp = /\[(.*)\]\(((?!#).+)\)/gi;
+//     const links = readFile(file).match(regExp).map((e) => e.split('](')[1].slice(0, -1));
+//     const text = readFile(file).match(regExp).map((e) => e.split('](')[0].slice(1));
+//   links.forEach((link, i) => {
+//     allLinks.push({
+//       href: link,
+//       text: text[i],
+//       file,
+//     });
+//   });
+//   });
+//   return console.log(allLinks);
+// };
