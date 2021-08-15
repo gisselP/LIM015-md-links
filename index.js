@@ -70,7 +70,7 @@ const mdFileLinks = (theLinks) => {
 
 // /*---------------------Funcion que filtra archivos md ---------------------*/
 
-const validarLinks = (links) => {
+const validateLinks = (links) => {
   mdFileLinks(links).forEach((file)=>{
     const linkHttp = file.href;
     fetch(linkHttp).then((res)=>{
@@ -89,7 +89,7 @@ console.log("existe:", checkExists(userPath));
 searchFileMd(userPath);
 // searchLinks(userPath);
 mdFileLinks(userPath);
-validarLinks(userPath);
+validateLinks(userPath);
 
 
 /*---------------------5.Funcion que lee archivos----------------------*/
