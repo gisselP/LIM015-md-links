@@ -4,8 +4,7 @@ const userPath = process.argv.slice(2);
 console.log(userPath)
 /* mdLinks(userPath); */
 if(userPath.length===1){
-
-    mdLinks(userPath[0],{validate:false}).then((data)=>{
+     mdLinks(userPath[0],{validate:false}).then((data)=>{
         console.log(data,6);
     }).catch((error)=>{
         console.log(error);
