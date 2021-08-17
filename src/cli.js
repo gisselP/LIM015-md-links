@@ -1,7 +1,7 @@
 #!/usr/bin/env node 
 const {mdLinks} = require('./mdLinks.js');
 const userPath = process.argv.slice(2);
-console.log(userPath)
+console.log(userPath.length)
 /* mdLinks(userPath); */
 if(userPath.length===1){
      mdLinks(userPath[0],{validate:false})
