@@ -24,15 +24,16 @@ const getFilesMd = (paths) =>{
   }else if (isDir(paths)){
     const readContentDir = fs.readdirSync(paths);
     for(const key in readContentDir){
-      const pathFile = path.join(paths, readContentDir[key]);//Muestra las rutas de las carpetas 
+      const pathFile = path.join(paths, readContentDir[key]); //Muestra las rutas de las carpetas 
      
       allFile = allFile.concat(getFilesMd(pathFile)); 
     }
   }
-  const allFileMd = allFile.filter((paths) => isFileMd(paths));
+  const allFileMd = allFile.filter((paths) => isFileMd(paths) ==='.md');
   return allFileMd;
 };
- 
+/* console.log(getFilesMd(userPath)) */
+
 // Obtener los links de los archivos md 
 
 const getLinks = (paths)=>{
@@ -48,57 +49,51 @@ const getLinks = (paths)=>{
     };
     marked(contentFile(file), {renderer}); 
   });
-  /* console.log(allLinks,46) */
   const filteredLinks = allLinks.filter(url => url.href.slice(0, 4) == 'http'); 
   return filteredLinks;
 }  
 
-/* console.log(getLinks(userPath)) */
+/*  console.log(getLinks(userPath),56) */
 
 const getValidLinks = (paths)=>{
   if(getLinks(paths).length==0){
-    console.log('no hay links :c',60)
+    /* console.log('no hay links :c',60)
+    console.log(getFilesMd(paths)) */
   }else{
     getLinks(paths).forEach((url)=>{
       fetch(url.href)
       .then(res => {
-        console.log(url.href,url.title,url.file,res.status, res.statusText)
-        return{
+        const statusText = (res.status == 200)? res.statusText :'FAIL';
+        const objRes = {
           href: url.href,
           title: url.title,
           file: url.file,
           status: res.status,
-          message:res.statusText
+          message: statusText
           }
-        
-      }).catch(rej => {console.log(url.href,url.title,url.file,'NO status','FAIL')
-        return {
+        console.log(objRes)
+        return objRes
+      }).catch(rej => {
+        const objRej ={
           href: url.href,
           title: url.title,
           file: url.file,
-          status: rej.status,
-          message: rej.statusText
+          status: res.status
         }
+        console.log(objRej) 
+        return objRej
       })
     })
-    
-  
   }
 } 
+
 getValidLinks(userPath);
-  /* console.log (...getLinks(paths))
-  getLinks(paths).forEach((url)=>{
-    console.log(url,69)
-  }) */
-  
 
-/* 
-fetch('https://api.github.com/users/mitocode21')
-    .then(res => res.text())
-    .then(contenido => console.log(contenido)); */
-
-
-    
+   
 module.exports = {
-  pathAbsolute
+  pathAbsolute,
+  existsPath,
+  getFilesMd,
+  getLinks,
+  getValidLinks
 };

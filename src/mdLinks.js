@@ -4,7 +4,7 @@ const mdLinks = (path,option={validate:false}) => new Promise((res,rej)=>{
          /* pathAbsolute(path);  */
         res('holi');
     }else{
-        res('error');
+        rej('error');
     }
 }) 
 /* function mdLinks(path){console.log(path)}; */
