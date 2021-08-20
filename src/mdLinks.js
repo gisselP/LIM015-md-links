@@ -1,19 +1,14 @@
-const {index,pathAbsolute} = require('./index.js');
+const index = require('./index.js');
 
 const mdlinks = (path,option={validate:false}) => new Promise((res,rej)=>{
-    const pathValid = pathAbsolute(path);
-    console.log(pathValid)
+    const pathValid = index.pathAbsolute(path);
     if(index.existsPath(pathValid)){
-        const allFilesMd = index.getFilesMd(path);
-        if(option.validate){
-            const statusLinks = index.getValidLinks(allFilesMd);
-            if(statusLinks=="notlinks"){
-                rej('no hay links :c')
-            }else{
-                res(statusLinks)
-            }
+        if(option.validate===true){
+            const getLinks = index.getLinks(pathValid);
+            const validLinks = getLinks.map(obj => index.getValidLinks(obj));
+            res(Promise.all(validLinks));
         }else if(option.validate ===false){
-            res(index.getLinks(allFilesMd));
+            res(index.getLinks(pathValid));
         }else{
             rej('error del segundo parámetro');
         }

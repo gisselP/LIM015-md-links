@@ -3,42 +3,43 @@ const fs= require('fs');
 const marked = require('marked');
 const fetch = require('node-fetch');
 
-/* const userPath = process.argv[2]; */
-const pathAbsolute = (paths) => path.isAbsolute(paths) ? (paths) : path.resolve(paths);
+const userPath = process.argv[2];
 
-const existsPath = (paths) => fs.existsSync(paths);
+const existsPath = (paths) => fs.existsSync(paths); //retorna booleano 
 
-const isDir = (paths) => fs.statSync(paths).isDirectory(paths);
+const pathAbsolute = (paths) => path.isAbsolute(paths) ? (paths) : path.resolve(paths) //retorna la ruta absoluta
 
-const isFile = (paths) => fs.statSync(paths).isFile();
+const isFileMd = (paths)=> path.extname(paths); //retorna la extensión de la ruta
 
-const isFileMd = (paths)=> path.extname(paths);
+const isDir = (paths) => fs.statSync(paths).isDirectory(); //retorna booleano 
+
+const isFile = (paths) => fs.statSync(paths).isFile(); //retorna booleano
+
 
 const contentFile = (paths) => fs.readFileSync(paths,'utf-8');
 
-// Obtener los archivos md 
+// Obtiene los archivos md en un array
 const getFilesMd = (paths) =>{
   let allFile = [];
   if(isFile(paths)){
       allFile.push(paths);
   }else if (isDir(paths)){
-    const readContentDir = fs.readdirSync(paths);
+    const readContentDir = fs.readdirSync(paths); //arrays de archivos o carpetas que hay en el directorio
     for(const key in readContentDir){
-      const pathFile = path.join(paths, readContentDir[key]); //Muestra las rutas de las carpetas 
+      const pathFile = path.join(paths, readContentDir[key]); //Muestra las rutas de los carpetas y los archivos
       allFile = allFile.concat(getFilesMd(pathFile)); 
     }
   }
-  const allFileMd = allFile.filter((paths) => isFileMd(paths) ==='.md');
+  const allFileMd = allFile.filter((paths) => isFileMd(paths) ==='.md');//Filtra las rutas para que solo sean md
   return allFileMd;
 };
-/* const x = getFilesMd("C:/Users/PC/Documents/GitHub/LIM015-md-links/prueba/README1.md") */
 
-// Obtener los links de los archivos md 
 
+// Obtiene los links de los archivos md 
 const getLinks = (paths)=>{
   let allLinks=[];
   const renderer = new marked.Renderer();
-  getFilesMd(paths).forEach((file)=>{
+  getFilesMd(paths).map((file)=>{
     renderer.link = (href, title, text) => {
       allLinks.push({
         href: href,
@@ -49,45 +50,34 @@ const getLinks = (paths)=>{
     marked(contentFile(file), {renderer}); 
   });
   const filteredLinks = allLinks.filter(url => url.href.slice(0, 4) == 'http'); 
+  if(filteredLinks.length === 0){
+    return 'no hay links'
+  }
   return filteredLinks;
 }  
 
-
-const getValidLinks = (arr)=>{
-  if(getLinks(arr).length==0){
-    return 'notlinks'
-  }else{
-    getLinks(arr).forEach((url)=>{
-      fetch(url.href)
-      .then(res => {
-        const statusText = (res.status == 200)? res.statusText :'FAIL';
-        const objRes = {
-          href: url.href,
-          title: url.title,
-          file: url.file,
-          status: res.status,
-          message: statusText
-          }
-        /* console.log(objRes) */
-        return objRes
-      }).catch(rej => {
-        const objRej ={
-          href: url.href,
-          title: url.title,
-          file: url.file,
-          status: res.status,
-          message: 'ERROR SERVER'
-        }
-       /*  console.log(objRej)  */
-        return objRej
-      })
-    })
-  }
-} 
-
-/* getValidLinks(x); */
-
+const getValidLinks = (result) =>{
+  return fetch(result.href)
+  .then(res => {
+    const statusText = (res.status == 200)? res.statusText :'FAIL';
+    const objRes = {
+      ...result,
+      status: res.status,
+      message: statusText
+      }
    
+    return objRes
+  }).catch(rej => {
+    const objRej ={
+      ...result,
+      status: rej.status,
+      message: 'ERROR SERVER'
+    }
+    return objRej
+  })
+}
+
+ 
 module.exports = {
   pathAbsolute,
   existsPath,

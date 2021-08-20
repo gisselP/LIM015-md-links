@@ -1,8 +1,8 @@
 #!/usr/bin/env node 
-const {mdLinks} = require('./mdLinks.js');
+/* const {mdLinks} = require('./mdLinks.js');
 const userPath = process.argv.slice(2);
 console.log(userPath.length)
-/* mdLinks(userPath); */
+
 if(userPath.length===1){
      mdLinks(userPath[0],{validate:false})
     .then((data)=>{
@@ -10,4 +10,4 @@ if(userPath.length===1){
     }).catch((error)=>{
         console.log(error);
     })
-}
+} */
