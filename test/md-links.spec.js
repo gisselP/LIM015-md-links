@@ -1,9 +1,10 @@
 const api = require('../src/api');
 
 const directory = "C:\\Users\\Admin\\Documents\\Laboratoria\\LIM015-md-links\\prueba";
+
 describe('validatePath', () => {
 
-  it('its a function', () => {
+  it('is a function', () => {
     expect(typeof api.validatePath).toBe('function');
   });
 });
@@ -18,15 +19,13 @@ describe('searchFileMd', () => {
   const resultFile = ['C:\\Users\\Admin\\Documents\\Laboratoria\\LIM015-md-links\\prueba\\prueba2\\archivo3.md'];
 
 
-  it('its a function', () => {
+  it('is a function', () => {
     expect(typeof api.searchFileMd).toBe('function');
   });
 
   it('If it is a directory returns an array of .md file paths', () => {
     expect(api.searchFileMd(directory)).toEqual(resultDirectory);
   });
-
-
 
   it("If it is a file returns an array of .md file paths", () => {
     expect(api.searchFileMd(file)).toEqual(resultFile);
@@ -52,7 +51,7 @@ describe('mdFileLinks', () => {
     }
   ]
 
-  it('its a function', () => {
+  it('is a function', () => {
     expect(typeof api.mdFileLinks).toBe('function');
   });
   it('If it is a directory returns an array of .md file paths', () => {
@@ -60,3 +59,9 @@ describe('mdFileLinks', () => {
   });
 });
 
+describe('validateLinks', () => {
+
+  it('is a function', () => {
+    expect(typeof api.validateLinks).toBe('function');
+  });
+});
