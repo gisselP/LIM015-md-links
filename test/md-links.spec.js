@@ -35,6 +35,11 @@ const validate=[
     message: 'FAIL'
   }
 ]
+const x ={
+  href: 'https://curriculum.laboratoria.la/es/topics/javascript/04-arrays',
+  title: 'Arreglos',
+  file: 'C:\\Users\\PC\\Documents\\GitHub\\LIM015-md-links\\prueba\\README1.md'
+}
 describe('pathAbsolute',()=>{
   it('is a function', () => {
     expect(typeof index.pathAbsolute).toBe('function');
@@ -91,7 +96,7 @@ describe('getValidLinks',()=>{
   });
   
   it('returns the status of links', () => {
-    expect(index.getValidLinks('')).toEqual(validate);
+    expect(index.getValidLinks(x)).toEqual(validate);
   });
 
   /* it('returns the not links', () => {

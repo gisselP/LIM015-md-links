@@ -3,10 +3,9 @@ const fs= require('fs');
 const marked = require('marked');
 const fetch = require('node-fetch');
 
-const userPath = process.argv[2];
-
+/* const userPath=process.argv[2] */
 const existsPath = (paths) => fs.existsSync(paths); //retorna booleano 
-
+/* console.log(existsPath(userPath)) */
 const pathAbsolute = (paths) => path.isAbsolute(paths) ? (paths) : path.resolve(paths) //retorna la ruta absoluta
 
 const isFileMd = (paths)=> path.extname(paths); //retorna la extensión de la ruta
@@ -50,9 +49,6 @@ const getLinks = (paths)=>{
     marked(contentFile(file), {renderer}); 
   });
   const filteredLinks = allLinks.filter(url => url.href.slice(0, 4) == 'http'); 
-  if(filteredLinks.length === 0){
-    return 'no hay links'
-  }
   return filteredLinks;
 }  
 
@@ -61,7 +57,9 @@ const getValidLinks = (result) =>{
   .then(res => {
     const statusText = (res.status == 200)? res.statusText :'FAIL';
     const objRes = {
-      ...result,
+      href: result.href,
+      title: result.title,
+      file:result.file,
       status: res.status,
       message: statusText
       }
@@ -69,13 +67,16 @@ const getValidLinks = (result) =>{
     return objRes
   }).catch(rej => {
     const objRej ={
-      ...result,
+      href: result.href,
+      title: result.title,
+      file:result.file,
       status: rej.status,
       message: 'ERROR SERVER'
     }
     return objRej
   })
 }
+
 
  
 module.exports = {
