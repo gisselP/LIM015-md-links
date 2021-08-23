@@ -4,23 +4,23 @@ const userPath = process.argv[2];
 const fs = require('fs');
 const fetch = require('node-fetch');
 
-/*------------------1.Funcion que comprueba si existe la ruta --------------*/
+/*------------------1.Funcion que comprueba si existe la ruta ------------*/
 const validatePath = (route) =>fs.existsSync(route)
 
-/*------------------2.Funcion que comprueba si la ruta es absoluta---------*/
+
+/*------------------2.Funcion que comprueba si la ruta es absoluta--------*/
 const convertToAbsolute = (route) => path.resolve(route)
 
-/*------------------3.Funcion que verifica si es directorio---------------*/
+/*-----------------3.Funcion que verifica si es directorio---------------*/
 const itsDirectory = (route) => fs.statSync(route).isDirectory()
 
-
-/*---------------------4.Funcion que verdifica si tiene archivos md---------*/
+/*-----------------4.Funcion que verdifica si tiene archivos md----------*/
 const mdExtension = (route) => path.extname(route)
 
-/*---------------------5.Funcion que lee los archivo----------------------*/
+/*-----------------5.Funcion que lee los archivo-------------------------*/
 const readFile = (route) => fs.readFileSync(route, { encoding: 'utf-8', flag: 'r' });
 
-/*---------------------6.Funcion que filtra archivos md ---------------------*/
+/*-----------------6.Funcion que extrae archivos md ---------------------*/
 function searchFileMd(route) {
   let allFilesMd = [];
   if (itsDirectory(route)) {
@@ -60,14 +60,7 @@ const mdFileLinks = (allfiles) => {
         });
     }
   });
-  // if (linksArray.length === 0) {
-  //   return "no hay links";
-  // } else {
-  //   return linksArray;
-  // }
-  return linksArray;
-  
-
+    return (linksArray);
 };
 
 /*--------------------8.Funcion que valida los links ---------------------*/
@@ -91,25 +84,24 @@ const validateLinks = (arrlinks) => {
       }
       });
   })
-  return arrayPromesas
+  return arrayPromesas;
 }
 
+// const filesMd = searchFileMd(userPath);
+
+// const allLinks = mdFileLinks(filesMd);
+// console.log(allLinks)
+// const linksValidados = validateLinks(allLinks);
+// console.log(linksValidados)
 
 
 
-const filesMd = searchFileMd(userPath);
-
-const allLinks = mdFileLinks(filesMd);
-console.log(allLinks, 98)
-const linksValidados = validateLinks(allLinks);
-
-
-Promise.all(linksValidados).then(res => {
-  console.log(res, 101);
-})
-.catch(rej => {
-  console.log(rej, 104);
-})
+// Promise.all(linksValidados).then(res => {
+//   console.log(res, 101);
+// })
+// .catch(rej => {
+//   console.log(rej, 104);
+// })
 
 
 
@@ -117,7 +109,7 @@ module.exports = {
 validatePath,
 searchFileMd,
 mdFileLinks,
-convertToAbsolute
-// validateLinks
-};
+convertToAbsolute,
+validateLinks
+}
 
