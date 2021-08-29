@@ -59,12 +59,12 @@ const getValidLinks = (result) =>{
     const objRes = {
       href: result.href,
       title: result.title,
-      file:result.file,
+      file: result.file,
       status: res.status,
       message: statusText
       }
-   
     return objRes
+    
   }).catch(rej => {
     const objRej ={
       href: result.href,

@@ -1,35 +1,44 @@
 #!/usr/bin/env node 
 const {mdlinks} = require('./mdLinks.js');
-const { statsLinks, brokenLinks,anotherThing} = require('./stats.js');
-const argv = process.argv.slice(2);
+const { statsLinks, brokenLinks,helpMsg,errorPath,noExists} = require('./cli-methods.js');
+const chalk = require('chalk');
+
+const option = process.argv.slice(2);
 
 const userPath=process.argv[2]
 
-const validate =argv.includes("--validate");
-const stats =argv.includes("--stats");
+const validate = option.includes("--validate");
+const stats = option.includes("--stats");
 
-if(argv.length===1){
+if(option.length===1){
     mdlinks(userPath, {validate:false})
     .then(res=> console.log(res))
+    .catch((rej)=>{
+        if(rej==='noExist'){
+            console.log(chalk.redBright(noExists));
+        }else{
+            console.log(chalk.greenBright(errorPath));
+        }
+    })
 }else{
     if(validate && stats){
         mdlinks(userPath, {validate:true})
         .then(res =>{
-            console.log(statsLinks(res))
-            console.log(brokenLinks(res))})
-        .catch(rej=>console.log(rej))
+            console.table(chalk.greenBright(statsLinks(res)))
+            console.table(chalk.red(brokenLinks(res)))})
+        .catch(()=>console.log(chalk.greenBright(errorPath)))
     }else if (validate){
         mdlinks(userPath, {validate:true})
         .then(res => console.log(res))
-        .catch(rej=>console.log(rej))
+        .catch(()=>console.log(chalk.greenBright(errorPath)))
     }else if(stats){
         mdlinks(userPath, {validate:true})
-        .then(res => console.log(statsLinks(res)))
-        .catch(rej=>console.log(rej))
+        .then(res => console.table(chalk.greenBright(statsLinks(res))))
+        .catch(()=>console.log(chalk.greenBright(errorPath)))
     }else{
-        mdlinks(userPath, {validate:true})
-        .then( console.log(anotherThing))
-        .catch(rej=>console.log(rej))
+       mdlinks(userPath, {validate:true})
+        .then( console.log(chalk.cyanBright(helpMsg)))
+        .catch(()=>console.log(chalk.greenBright(errorPath)))
     }
 }
 
