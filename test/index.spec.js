@@ -98,7 +98,7 @@ describe('getValidLinks',()=>{
     });
   });
 
-  it('returns the x of links', () => {
+  it('returns the status of links', () => {
     index.getValidLinks(links)
     .catch((rej)=>{
       expect(rej).toEqual(...validate)

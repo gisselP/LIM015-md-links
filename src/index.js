@@ -64,7 +64,6 @@ const getValidLinks = (result) =>{
       message: statusText
       }
     return objRes
-    
   }).catch(rej => {
     const objRej ={
       href: result.href,
