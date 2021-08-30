@@ -96,6 +96,7 @@ describe('getValidLinks',()=>{
     .then((res) => {
       expect(res).toEqual(...validate)
     });
+    
   });
 
   it('returns the status of links', () => {
