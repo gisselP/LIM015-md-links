@@ -1,6 +1,6 @@
-# Markdown Links
+# Mdlinks-meme (ง ͠° ͟ل͜ ͡°)ง 
 
-## 1. mdlinks-meme (ง ͠° ͟ل͜ ͡°)ง 💻
+## 1. Md-links 💻
 
 Es una librería que verifica que todos los links en un archivo estén ok. Para esto la librería accede a distintos archivos o directorios para obtener sólo los que estén en formato `Markdown`. También reporta algunas estadísticas como la cantidad total de links, la cantidad de links únicos y la cantidad de links rotos.
 
