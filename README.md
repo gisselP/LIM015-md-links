@@ -1,14 +1,6 @@
 # Markdown Links
 
-## Índice
-
-- [1. Md-Links](#1-md-Links)
-- [2. Diagrama de flujo](#2-diagramas-de-flujo)
-- [3. Modo de Uso](#3-modo-de-uso)
-- [4. Instalación](#4-instalación)
----
-
-## 1. Md-Links 💻
+## 1. Preámbulo 💻
 
 Es una librería que verifica que todos los links en un archivo estén ok. Para esto la librería accede a distintos archivos o directorios para obtener sólo los que estén en formato `Markdown`. También reporta algunas estadísticas como la cantidad total de links, la cantidad de links únicos y la cantidad de links rotos.
 
