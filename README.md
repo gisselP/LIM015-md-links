@@ -2,11 +2,12 @@
 
 ## Índice
 
-- [Md-Links](#Md-Links)
-- [Diagrama de flujo](#diagramas-de-flujo)
-- [Modo de Uso](#modo-de-uso)
-- [Instalación](#instalación)
+- [1. Md-Links](#1-md-Links)
+- [2. Diagrama de flujo](#2-diagramas-de-flujo)
+- [3. Modo de Uso](#3-modo-de-uso)
+- [4. Instalación](#4-instalación)
 ---
+- [1. Preámbulo](#1-preámbulo)
 
 ## Md-Links 💻
 
@@ -16,40 +17,40 @@ Es una librería que verifica que todos los links en un archivo estén ok. Para 
 
 Para poder implementar esta librería, se realizaron 2 diagramas de flujo.
 
-![api-diagrama](src/images/api.png)
+![api-diagrama](images/api.png)
 
 ### CLI (Command Line Interface - Interfaz de Línea de Comando)
 
-![cli-diagrama](src/images/cli.png)
+![cli-diagrama](images/cli.png)
 
 ## Modo de Uso ✒
 
 #### Cuando sólo pones la ruta.
 
-![prueba](src/images/prueba.png)
+![prueba](images/prueba.png)
 
 #### Cuando pones la ruta y --validate.
 
-![prueba-validate](src/images/prueba-validate.png)
+![prueba-validate](images/prueba-validate.png)
 
 #### Cuando pones la ruta y --stats.
 
-![prueba-stats](src/images/prueba-stats.png)
+![prueba-stats](images/prueba-stats.png)
 
 #### Cuando pones la ruta y --validate --stats.
 
-![prueba-validate-stats](src/images/prueba-validate-stats.png)
+![prueba-validate-stats](images/prueba-validate-stats.png)
 
 #### Cuando pones mal la ruta.
 
-![prueba-vacio](src/images/prueba-vacio.png)
+![prueba-vacio](images/prueba-vacio.png)
 
 #### Cuando pones mal la ruta.
 
-![prueba-noexiste](src/images/prueba-noexiste.png)
+![prueba-noexiste](images/prueba-noexiste.png)
 
 #### Cuando pones bien la ruta pero mal las opciones.
 
-![prueba-ayuda](src/images/prueba-ayuda.png)
+![prueba-ayuda](images/prueba-ayuda.png)
 
 ### Instalación 📦
