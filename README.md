@@ -8,12 +8,11 @@
 - [4. Instalación](#4-instalación)
 ---
 
-
-## 1.Md-Links 💻
+## 1. Md-Links 💻
 
 Es una librería que verifica que todos los links en un archivo estén ok. Para esto la librería accede a distintos archivos o directorios para obtener sólo los que estén en formato `Markdown`. También reporta algunas estadísticas como la cantidad total de links, la cantidad de links únicos y la cantidad de links rotos.
 
-## 2.Diagramas de flujo 📌
+## 2. Diagramas de flujo 📌
 
 Para poder implementar esta librería, se realizaron 2 diagramas de flujo.
 
@@ -23,7 +22,7 @@ Para poder implementar esta librería, se realizaron 2 diagramas de flujo.
 
 ![cli-diagrama](images/cli.png)
 
-## 3.Modo de Uso ✒
+## 3. Modo de Uso ✒
 
 #### Cuando sólo pones la ruta.
 
@@ -53,4 +52,4 @@ Para poder implementar esta librería, se realizaron 2 diagramas de flujo.
 
 ![prueba-ayuda](images/prueba-ayuda.png)
 
-### 4.Instalación 📦
+### 4. Instalación 📦
