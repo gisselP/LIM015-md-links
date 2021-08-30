@@ -7,13 +7,13 @@
 - [3. Modo de Uso](#3-modo-de-uso)
 - [4. Instalación](#4-instalación)
 ---
-- [1. Preámbulo](#1-preámbulo)
 
-## Md-Links 💻
+
+## 1.Md-Links 💻
 
 Es una librería que verifica que todos los links en un archivo estén ok. Para esto la librería accede a distintos archivos o directorios para obtener sólo los que estén en formato `Markdown`. También reporta algunas estadísticas como la cantidad total de links, la cantidad de links únicos y la cantidad de links rotos.
 
-## Diagramas de flujo 📌
+## 2.Diagramas de flujo 📌
 
 Para poder implementar esta librería, se realizaron 2 diagramas de flujo.
 
@@ -23,7 +23,7 @@ Para poder implementar esta librería, se realizaron 2 diagramas de flujo.
 
 ![cli-diagrama](images/cli.png)
 
-## Modo de Uso ✒
+## 3.Modo de Uso ✒
 
 #### Cuando sólo pones la ruta.
 
@@ -41,9 +41,9 @@ Para poder implementar esta librería, se realizaron 2 diagramas de flujo.
 
 ![prueba-validate-stats](images/prueba-validate-stats.png)
 
-#### Cuando pones mal la ruta.
+#### Cuando la ruta no tiene links.
 
-![prueba-vacio](images/prueba-vacio.png)
+![prueba-vacio](images/prueba-vacia.png)
 
 #### Cuando pones mal la ruta.
 
@@ -53,4 +53,4 @@ Para poder implementar esta librería, se realizaron 2 diagramas de flujo.
 
 ![prueba-ayuda](images/prueba-ayuda.png)
 
-### Instalación 📦
+### 4.Instalación 📦
